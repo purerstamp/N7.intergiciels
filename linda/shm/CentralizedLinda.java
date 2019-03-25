@@ -1,5 +1,7 @@
 package linda.shm;
 
+import java.util.ArrayList;
+
 import linda.Callback;
 import linda.Linda;
 import linda.Tuple;
@@ -10,6 +12,6 @@ public class CentralizedLinda implements Linda {
     public CentralizedLinda() {
     }
 
-    // TO BE COMPLETED
+    ArrayList<Tuple> tuplespace;
 
 }
