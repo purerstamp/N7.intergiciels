@@ -18,7 +18,7 @@ public class CentralizedLinda implements Linda {
 	public void write(Tuple t) {
 		synchronized (this) {
 			tuplespace.add(t);
-			this.notify();
+			this.notifyAll();
 		}
 	}
 
