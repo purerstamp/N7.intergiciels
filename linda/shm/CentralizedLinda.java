@@ -18,7 +18,7 @@ public class CentralizedLinda implements Linda {
 	public void write(Tuple t) {
 		synchronized (this) {
 			tuplespace.add(t);
-			this.notify();
+			this.notifyAll();
 		}
 	}
 
@@ -51,13 +51,29 @@ public class CentralizedLinda implements Linda {
 
 	@Override
 	public Tuple tryTake(Tuple template) {
-		// TODO Auto-generated method stub
+		
+		synchronized (this) {
+			for (Tuple t : tuplespace) {
+				if (t.matches(template)) {
+					Tuple t_temp = read(template);
+					tuplespace.remove(t_temp);
+					return t_temp;
+				}
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Tuple tryRead(Tuple template) {
-		// TODO Auto-generated method stub
+
+		synchronized (this) {
+			for (Tuple t : tuplespace) {
+				if (t.matches(template)) {
+					return t;
+				}
+			}
+		}
 		return null;
 	}
 
