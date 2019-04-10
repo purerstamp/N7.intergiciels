@@ -1,6 +1,9 @@
 package linda.shm;
 
 import java.util.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import linda.Callback;
 import linda.Linda;
@@ -13,6 +16,9 @@ public class CentralizedLinda implements Linda {
     }
 
     ArrayList<Tuple> tuplespace = new ArrayList<Tuple>();
+    final Lock lock = new ReentrantLock();
+    final Condition empty = lock.newCondition();
+    
 
 	@Override
 	public void write(Tuple t) {
@@ -55,7 +61,7 @@ public class CentralizedLinda implements Linda {
 		synchronized (this) {
 			for (Tuple t : tuplespace) {
 				if (t.matches(template)) {
-					Tuple t_temp = read(template);
+					Tuple t_temp = t;
 					tuplespace.remove(t_temp);
 					return t_temp;
 				}
@@ -79,19 +85,52 @@ public class CentralizedLinda implements Linda {
 
 	@Override
 	public Collection<Tuple> takeAll(Tuple template) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Tuple> tuples = new ArrayList<Tuple>() ;
+		synchronized (this) {
+			for (Tuple t : tuplespace) {
+				if (t.matches(template)) {
+					tuples.add(t);
+					tuplespace.remove(t);
+				}
+			}
+		}
+		return tuples;
 	}
 
 	@Override
 	public Collection<Tuple> readAll(Tuple template) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Tuple> tuples = new ArrayList<Tuple>() ;
+		synchronized (this) {
+			for (Tuple t : tuplespace) {
+				if (t.matches(template)) {
+					tuples.add(t);
+				}
+			}
+		}
+		return tuples;
 	}
 
 	@Override
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
-		// TODO Auto-generated method stub
+		if (timing == eventTiming.IMMEDIATE) {
+			switch(mode)
+			{
+			case READ : callback.call(template);
+						this.read(template);
+						break;
+			case TAKE :	callback.call(template);
+						this.take(template);
+						break;
+			}
+		} else {
+			switch(mode)
+			{
+			case READ :
+				
+			case TAKE :
+				
+			}
+		}
 		
 	}
 
