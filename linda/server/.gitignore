@@ -1,1 +1,7 @@
 /LindaClient.class
+/LindaServer.class
+/LindaServerImpl.class
+/LindaObject.class
+/LindaObjectImpl.class
+/LindaObject$eventMode.class
+/LindaObject$eventTiming.class
