@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import linda.*;
 
 /**
- * Test if readAll primitive is a not a blocking operation.
+ * Test if takeAll primitive is a not a blocking operation.
  *
  */
 public class CustomTest4 {
+	// TODO adapt for takeAll
 
 	public static void main(String[] args) {
 
@@ -40,9 +41,9 @@ public class CustomTest4 {
 				}
 				Tuple motif1 = new Tuple(Integer.class, Integer.class);
 				Tuple motif2 = new Tuple(Integer.class, String.class);
-				ArrayList<Tuple> res1 = new ArrayList<>(linda.readAll(motif1));
+				ArrayList<Tuple> res1 = new ArrayList<>(linda.takeAll(motif1));
 				System.out.println("(2) Result:" + res1);
-				ArrayList<Tuple> res2 = new ArrayList<>(linda.readAll(motif2));
+				ArrayList<Tuple> res2 = new ArrayList<>(linda.takeAll(motif2));
 				System.out.println("(2) Result:" + res2);
 				linda.debug("(2)");
 			}
@@ -73,9 +74,9 @@ public class CustomTest4 {
 				}
 				Tuple motif1 = new Tuple(Integer.class, Integer.class);
 				Tuple motif2 = new Tuple(Integer.class, String.class);
-				ArrayList<Tuple> res1 = new ArrayList<>(linda.readAll(motif1));
+				ArrayList<Tuple> res1 = new ArrayList<>(linda.takeAll(motif1));
 				System.out.println("(4) Result:" + res1);
-				ArrayList<Tuple> res2 = new ArrayList<>(linda.readAll(motif2));
+				ArrayList<Tuple> res2 = new ArrayList<>(linda.takeAll(motif2));
 				System.out.println("(4) Result:" + res2);
 				linda.debug("(4)");
 			}

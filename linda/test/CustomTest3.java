@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import linda.*;
 
 /**
- * Test if takeAll primitive is a not a blocking operation.
+ * Test if readAll primitive is a not a blocking operation.
  *
  */
 public class CustomTest3 {
