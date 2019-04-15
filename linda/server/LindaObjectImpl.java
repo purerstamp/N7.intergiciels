@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import linda.Callback;
+import linda.Linda.eventMode;
+import linda.Linda.eventTiming;
 import linda.Tuple;
 import linda.shm.CentralizedLinda;
 
@@ -71,8 +73,10 @@ public class LindaObjectImpl extends UnicastRemoteObject implements LindaObject 
 
 	@Override
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
-		// TODO Auto-generated method stub
-		
+		centralizedLinda.eventRegister(mode, timing, template, callback);
+		// should callbacks be linked to client ?
+		// -> callbackServer extends callback :
+		// attribute client ?
 	}
 
 	@Override

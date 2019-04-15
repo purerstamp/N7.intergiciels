@@ -2,6 +2,7 @@ package linda.server;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -20,12 +21,21 @@ public class LindaClient implements Linda {
     /** Initializes the Linda implementation.
      *  @param serverURI the URI of the server, e.g. "rmi://localhost:4000/LindaServer" or "//localhost:4000/LindaServer".
      */
-    public LindaClient(String serverURI) throws Exception {
+    public LindaClient(String serverURI) {
     	// getRegistry with URI != localhost
     	// Registry registry = LocateRegistry.getRegistry(getHost(serverURI), Integer.parseInt(getPort(serverURI)));
     	
-    	Registry registry = LocateRegistry.getRegistry(1099);
-        linda = (LindaObject) registry.lookup("LindaImpl");
+    	Registry registry = null;
+		try {
+			registry = LocateRegistry.getRegistry(1099);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		try {
+			linda = (LindaObject) registry.lookup("LindaImpl");
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+		}
     }
 
 	@Override
@@ -76,7 +86,6 @@ public class LindaClient implements Linda {
 		try {
 			t = linda.tryRead(template);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return t;
@@ -106,8 +115,11 @@ public class LindaClient implements Linda {
 
 	@Override
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
-		// TODO Auto-generated method stub
-		
+		try {
+			linda.eventRegister(mode, timing, template, callback);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
