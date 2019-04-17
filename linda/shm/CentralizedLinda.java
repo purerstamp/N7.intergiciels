@@ -26,9 +26,9 @@ public class CentralizedLinda implements Linda {
 	 * signalAll() is used instead of signal() for safety measures :
 	 * in the case of a missed notification by one thread, 
 	 * others will most likely receive theirs and compete for the lock,
-	 * thus, continuity is almost guaranteed (?)
+	 * thus, continuity is almost guaranteed ?
 	 * ----
-	 * callbacks have priority over waiting threads
+	 * callbacks have priority over waiting threads ?
 	 */
 	public void write(Tuple t) {
 		lock.lock();
@@ -124,10 +124,10 @@ public class CentralizedLinda implements Linda {
 		for (Tuple t : tuplespace) {
 			if (t.matches(template)) {
 				tuples.add(t);
-				tuplespace.remove(t);
 			}
 		}
 		lock.unlock();
+		tuplespace.removeAll(tuples);
 		return tuples;
 	}
 

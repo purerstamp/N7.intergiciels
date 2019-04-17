@@ -74,9 +74,6 @@ public class LindaObjectImpl extends UnicastRemoteObject implements LindaObject 
 	@Override
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
 		centralizedLinda.eventRegister(mode, timing, template, callback);
-		// should callbacks be linked to client ?
-		// -> callbackServer extends callback :
-		// attribute client ?
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.rmi.registry.Registry;
 
 public class LindaServer {
 	
-	 public static void main (String args[]) throws Exception {
+	 public static void main (String[] args) throws Exception {
 	        //  create naming service
 	        try {
 	        	Registry registry = LocateRegistry.createRegistry(1099);

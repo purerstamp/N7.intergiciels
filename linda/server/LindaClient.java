@@ -32,7 +32,7 @@ public class LindaClient implements Linda {
 			e.printStackTrace();
 		}
 		try {
-			linda = (LindaObject) registry.lookup("LindaImpl");
+			linda = (LindaObject) registry.lookup("Linda");
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
@@ -101,6 +101,7 @@ public class LindaClient implements Linda {
 		}
 		return tuples;
 	}
+//  create LindaObject,
 
 	@Override
 	public Collection<Tuple> readAll(Tuple template) {
