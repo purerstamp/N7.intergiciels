@@ -18,10 +18,11 @@ public class LindaObjectImpl extends UnicastRemoteObject implements LindaObject 
 	 */
 	private static final long serialVersionUID = 3136775299313441896L;
 	
-	public CentralizedLinda centralizedLinda = new CentralizedLinda();
+	public CentralizedLinda centralizedLinda;
 	
 	public LindaObjectImpl() throws RemoteException {
 		super();
+		centralizedLinda = new CentralizedLinda();
 	}
 
 	@Override
@@ -72,8 +73,8 @@ public class LindaObjectImpl extends UnicastRemoteObject implements LindaObject 
 	}
 
 	@Override
-	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
-		centralizedLinda.eventRegister(mode, timing, template, callback);
+	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, RemoteCallback callback) {
+		centralizedLinda.eventRegister(mode, timing, template, new ServerCallback(callback));
 	}
 
 	@Override

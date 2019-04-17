@@ -22,15 +22,22 @@ public class LindaClient implements Linda {
      *  @param serverURI the URI of the server, e.g. "rmi://localhost:4000/LindaServer" or "//localhost:4000/LindaServer".
      */
     public LindaClient(String serverURI) {
-    	// getRegistry with URI != localhost
-    	// Registry registry = LocateRegistry.getRegistry(getHost(serverURI), Integer.parseInt(getPort(serverURI)));
     	
     	Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry(1099);
-		} catch (RemoteException e) {
-			e.printStackTrace();
+    	
+    	// getRegistry with URI != localhost
+    	try {
+			registry = LocateRegistry.getRegistry(getHost(serverURI), Integer.parseInt(getPort(serverURI)));
+		} catch (NumberFormatException | RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+    	
+//		try {
+//			registry = LocateRegistry.getRegistry(1099);
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		}
 		try {
 			linda = (LindaObject) registry.lookup("Linda");
 		} catch (RemoteException | NotBoundException e) {
@@ -117,7 +124,8 @@ public class LindaClient implements Linda {
 	@Override
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
 		try {
-			linda.eventRegister(mode, timing, template, callback);
+			RemoteCallback cb = new RemoteCallbackImpl(callback);
+			linda.eventRegister(mode, timing, template, cb);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

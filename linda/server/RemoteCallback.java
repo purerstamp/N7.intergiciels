@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 import linda.Tuple;
 
-public interface WrappedCallback extends Remote  {
+public interface RemoteCallback extends Remote {
 
 	/** Callback when a tuple appears. 
      * See Linda.eventRegister for details.

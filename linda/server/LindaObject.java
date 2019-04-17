@@ -58,7 +58,7 @@ public interface LindaObject extends Remote {
      * @param template the filtering template.
      * @param callback the callback to call if a matching tuple appears.
      */
-    public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) throws RemoteException;
+    public void eventRegister(eventMode mode, eventTiming timing, Tuple template, RemoteCallback callback) throws RemoteException;
 
     /** To debug, prints any information it wants (e.g. the tuples in tuplespace or the registered callbacks), prefixed by <code>prefix</code. */
     public void debug(String prefix) throws RemoteException;

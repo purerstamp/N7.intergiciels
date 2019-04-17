@@ -3,7 +3,9 @@ package linda.shm;
 import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import linda.Callback;
 import linda.Linda;
@@ -19,6 +21,9 @@ public class CentralizedLinda implements Linda {
     HashMap<Tuple, ArrayList<Callback>> eventsCollectionTake = new HashMap<Tuple, ArrayList<Callback>>();
     final Lock lock = new ReentrantLock();
     final Condition notEmpty = lock.newCondition();
+//    final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+//    final Lock w = rwLock.writeLock();
+//    final Lock r = rwLock.readLock();
     
 
 	@Override
@@ -43,6 +48,7 @@ public class CentralizedLinda implements Linda {
 			if (eventsCollectionTake.containsKey(t)) {
 				eventsCollectionTake.get(t).get(0).call(t);
 				eventsCollectionTake.get(t).remove(0);
+				tuplespace.remove(t);
 				if (eventsCollectionTake.get(t).isEmpty()) {
 					eventsCollectionTake.remove(t);
 				}
@@ -154,7 +160,7 @@ public class CentralizedLinda implements Linda {
 	 * -> callback stored to hashmap (...)
 	 * 
 	 * 
-	 * => WRITE operation : check for callbacks matching template, trigger if any, priority to read (?), no daisy-chaining (?)
+	 * => WRITE operation : check for callbacks matching template, trigger if any, priority to read (?)
 	 */
 	public void eventRegister(eventMode mode, eventTiming timing, Tuple template, Callback callback) {
 		if (timing == eventTiming.IMMEDIATE) {
